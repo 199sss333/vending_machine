@@ -1,17 +1,33 @@
 package model;
 
-public class CoinAcceptor {
-    private int amount;
+public class CoinAcceptor implements MoneyAcceptor {
+    private int currentBalance;
 
-    public CoinAcceptor(int amount) {
-        this.amount = amount;
+    public CoinAcceptor(int currentBalance) {
+        this.currentBalance = currentBalance;
     }
 
-    public int getAmount() {
-        return amount;
+    @Override
+    public int getCurrentBalance() {
+        return currentBalance;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    @Override
+    public void giveMoney(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Сумма должна быть положительной");
+        }
+        this.currentBalance += amount;
+    }
+
+    @Override
+    public void removeMoney(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Сумма должна быть положительной");
+        }
+        if (amount > currentBalance) {
+            throw new IllegalArgumentException("Недостаточно средств");
+        }
+        this.currentBalance -= amount;
     }
 }
